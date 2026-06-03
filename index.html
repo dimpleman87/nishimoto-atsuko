@@ -52,6 +52,10 @@
       display: block;
     }
 
+    figure {
+      margin: 0;
+    }
+
     a {
       color: inherit;
     }
@@ -105,8 +109,57 @@
     }
 
     .hero {
-      max-width: 860px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
+      gap: clamp(26px, 5vw, 58px);
+      align-items: center;
       padding: clamp(44px, 7vw, 86px) 0 54px;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+    }
+
+    .hero-photo {
+      overflow: hidden;
+      border: 1px solid rgba(230, 215, 197, 0.9);
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: clamp(360px, 42vw, 560px);
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .section-photo {
+      overflow: hidden;
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 12px 30px rgba(72, 52, 39, 0.1);
+    }
+
+    .section-photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 280px;
+      object-fit: cover;
+    }
+
+    .intro-with-photo,
+    .cta-with-photo {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: 30px;
+      align-items: center;
+    }
+
+    .program-photo {
+      margin-top: 24px;
+      aspect-ratio: 16 / 8;
     }
 
     .eyebrow {
@@ -555,10 +608,7 @@
     }
 
     .contact-panel {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 30px;
-      align-items: center;
+      display: block;
       padding: 34px;
       border: 1px solid rgba(79, 125, 88, 0.25);
       border-radius: 28px;
@@ -579,13 +629,6 @@
       color: var(--ink);
       font-weight: 900;
       text-decoration: none;
-    }
-
-    .contact-qr {
-      display: grid;
-      gap: 10px;
-      justify-items: center;
-      text-align: center;
     }
 
     .consult-form {
@@ -641,14 +684,6 @@
       display: none;
     }
 
-    .contact-qr img {
-      width: 210px;
-      height: 210px;
-      border-radius: 14px;
-      background: var(--white);
-      box-shadow: 0 10px 24px rgba(72, 52, 39, 0.12);
-    }
-
     footer {
       padding: 30px 16px;
       border-top: 1px solid var(--line);
@@ -691,8 +726,14 @@
       .learn,
       .profile,
       .video-grid,
-      .contact-panel {
+      .hero,
+      .intro-with-photo,
+      .cta-with-photo {
         grid-template-columns: 1fr;
+      }
+
+      .hero-photo img {
+        height: auto;
       }
 
       .worries,
@@ -771,7 +812,7 @@
 
   <main id="top">
     <section class="hero wrap">
-      <div>
+      <div class="hero-copy">
         <p class="eyebrow">島根県松江市から、地域の食卓に備えを届けます</p>
         <h1>いつもの食事が、<br><span class="mark">いざという時の備え</span>になります。</h1>
         <p class="lead">防災を難しく考えすぎず、毎日の買い物と食事の中で続けられる形に。西本敦子が、家庭備蓄とローリングストックをやさしく、実践しやすくお伝えします。</p>
@@ -790,14 +831,21 @@
           <a class="button secondary" href="tel:09045766132">電話で相談する</a>
         </div>
       </div>
-
+      <figure class="hero-photo">
+        <img src="assets/lecture-scene.png" alt="西本敦子が地域講座で防災食と備蓄食品について説明している様子">
+      </figure>
     </section>
 
     <section class="section wrap">
-      <div class="section-head">
-        <p class="eyebrow">企画担当者の方へ</p>
-        <h2>防災講座を、参加しやすく、家庭で続けやすい内容にします。</h2>
-        <p>備蓄の必要性は分かっていても、家庭で無理なく続けるところまで伝えるのは簡単ではありません。食の専門家として、日常の食卓に近い言葉と実例でお話しします。</p>
+      <div class="intro-with-photo">
+        <div class="section-head">
+          <p class="eyebrow">企画担当者の方へ</p>
+          <h2>防災講座を、参加しやすく、家庭で続けやすい内容にします。</h2>
+          <p>備蓄の必要性は分かっていても、家庭で無理なく続けるところまで伝えるのは簡単ではありません。食の専門家として、日常の食卓に近い言葉と実例でお話しします。</p>
+        </div>
+        <figure class="section-photo">
+          <img src="assets/workshop-table.png" alt="西本敦子が備蓄食品を並べて参加者に説明している講座風景">
+        </figure>
       </div>
       <div class="worries">
         <article class="worry panel">
@@ -852,6 +900,9 @@
           </ul>
         </article>
       </div>
+      <figure class="section-photo program-photo">
+        <img src="assets/rolling-stock.png" alt="西本敦子が水や缶詰、カセットコンロを前に備蓄内容を確認している様子">
+      </figure>
     </section>
 
     <section class="section wrap">
@@ -860,6 +911,9 @@
           <p class="eyebrow">講座で学べること</p>
           <h2>備えを「買って終わり」にしないために。</h2>
           <p>防災食は、しまい込んで忘れてしまうものではなく、日々の食卓の延長に置くことで続きます。講座では、家庭ですぐに見直せる実践項目を扱います。</p>
+          <figure class="section-photo">
+            <img src="assets/line-consult.png" alt="西本敦子が講座資料と備蓄食品を確認しながら相談準備をしている様子">
+          </figure>
         </div>
         <div>
           <ul class="learn-list">
@@ -1009,16 +1063,26 @@
     <section id="contact" class="contact wrap">
       <div class="contact-panel">
         <div>
-          <p class="eyebrow">お問い合わせ</p>
-          <h2>講座内容・時間・人数に合わせて調整できます。</h2>
-          <p>まずは公式LINE、電話、メールでご相談ください。開催予定地域、対象者、人数、希望時期が分かるとスムーズです。</p>
+          <div class="cta-with-photo">
+            <div>
+              <p class="eyebrow">お問い合わせ</p>
+              <h2>講座内容・時間・人数に合わせて調整できます。</h2>
+              <p>まずは公式LINE、電話、メールでご相談ください。開催予定地域、対象者、人数、希望時期が分かるとスムーズです。</p>
+            </div>
+            <figure class="section-photo">
+              <img src="assets/line-consult.png" alt="西本敦子がスマートフォンで講座相談を確認している様子">
+            </figure>
+          </div>
           <div class="contact-methods">
             <a href="https://lin.ee/5NSC8Eg">公式LINEで相談する</a>
             <a href="tel:09045766132">電話：090-4576-6132</a>
             <a href="mailto:atsukonishimoto245@gmail.com">メール：atsukonishimoto245@gmail.com</a>
           </div>
-          <form class="consult-form" name="lecture-consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="lecture-consultation">
+          <form class="consult-form" name="lecture-consultation" method="POST" action="https://formsubmit.co/atsukonishimoto245@gmail.com">
+            <input type="hidden" name="_subject" value="西本敦子公式サイトから講座相談が届きました">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://dimpleman87.github.io/nishimoto-atsuko/#contact">
             <p class="hidden-field">
               <label>入力しないでください <input name="bot-field"></label>
             </p>
@@ -1065,10 +1129,6 @@
             </div>
             <button class="button primary" type="submit">相談内容を送信する</button>
           </form>
-        </div>
-        <div class="contact-qr">
-          <img src="assets/line-qr.png" alt="西本敦子公式LINE QRコード">
-          <strong>スマホで読み取ってください</strong>
         </div>
       </div>
     </section>
