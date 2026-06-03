@@ -1,5 +1,14 @@
 const SHEET_NAME = '相談フォーム';
 const NOTIFY_TO = 'atsukonishimoto245@gmail.com';
+const SITE_URL = 'https://dimpleman87.github.io/nishimoto-atsuko/#contact';
+
+function doGet() {
+  return HtmlService.createHtmlOutput(
+    '<meta charset="utf-8">' +
+    `<meta http-equiv="refresh" content="0; url=${SITE_URL}">` +
+    '<p>問い合わせフォームに戻ります。</p>'
+  );
+}
 
 function doPost(e) {
   const params = e.parameter || {};
@@ -23,7 +32,7 @@ function doPost(e) {
 
   return HtmlService.createHtmlOutput(
     '<meta charset="utf-8">' +
-    '<meta http-equiv="refresh" content="0; url=https://dimpleman87.github.io/nishimoto-atsuko/#contact">' +
+    `<meta http-equiv="refresh" content="0; url=${SITE_URL}">` +
     '<p>送信ありがとうございました。ページに戻ります。</p>'
   );
 }

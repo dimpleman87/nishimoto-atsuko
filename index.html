@@ -688,6 +688,25 @@
       display: none;
     }
 
+    .form-status {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(79, 125, 88, 0.1);
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .form-status:empty {
+      display: none;
+    }
+
+    .form-frame {
+      display: none;
+    }
+
     footer {
       padding: 30px 16px;
       border-top: 1px solid var(--line);
@@ -1082,7 +1101,7 @@
             <a href="tel:09045766132">電話：090-4576-6132</a>
             <a href="mailto:atsukonishimoto245@gmail.com">メール：atsukonishimoto245@gmail.com</a>
           </div>
-          <form class="consult-form" name="lecture-consultation" method="POST" action="https://script.google.com/macros/s/AKfycbw8IbU6pSL0gGVfvjEsXoWl7KMBmU3wp5oiPc5Yj8bWhB0ZAvhUjch2NRI384UuoOqP/exec">
+          <form class="consult-form" name="lecture-consultation" method="POST" action="https://script.google.com/macros/s/AKfycbw8IbU6pSL0gGVfvjEsXoWl7KMBmU3wp5oiPc5Yj8bWhB0ZAvhUjch2NRI384UuoOqP/exec" target="contact-submit-frame">
             <input type="hidden" name="source_url" value="https://dimpleman87.github.io/nishimoto-atsuko/">
             <p class="hidden-field">
               <label>入力しないでください <input name="bot-field"></label>
@@ -1128,7 +1147,9 @@
               <label for="message">ご相談内容</label>
               <textarea id="message" name="ご相談内容" placeholder="対象者、人数、希望時期、講座で扱いたい内容などをご記入ください。"></textarea>
             </div>
+            <p class="form-status" aria-live="polite"></p>
             <button class="button primary" type="submit">相談内容を送信する</button>
+            <iframe class="form-frame" name="contact-submit-frame" title="問い合わせフォーム送信結果"></iframe>
           </form>
         </div>
       </div>
@@ -1140,5 +1161,47 @@
   <footer>
     <p>© 西本敦子 防災食育・ローリングストック講座</p>
   </footer>
+  <script>
+    const contactForm = document.querySelector('.consult-form');
+
+    if (contactForm) {
+      const status = contactForm.querySelector('.form-status');
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+      const frame = contactForm.querySelector('iframe[name="contact-submit-frame"]');
+      let submitted = false;
+      let fallbackTimer;
+
+      contactForm.addEventListener('submit', () => {
+        submitted = true;
+        status.textContent = '送信中です。画面を閉じずにお待ちください。';
+        submitButton.disabled = true;
+        submitButton.textContent = '送信中...';
+        window.clearTimeout(fallbackTimer);
+        fallbackTimer = window.setTimeout(() => {
+          if (!submitted) {
+            return;
+          }
+
+          status.textContent = '送信状況を確認できませんでした。お手数ですが、公式LINEまたはメールからご相談ください。';
+          submitButton.disabled = false;
+          submitButton.textContent = '相談内容を送信する';
+          submitted = false;
+        }, 15000);
+      });
+
+      frame.addEventListener('load', () => {
+        if (!submitted) {
+          return;
+        }
+
+        window.clearTimeout(fallbackTimer);
+        status.textContent = '送信しました。確認後、メールまたはお電話でご連絡します。届かない場合は公式LINEまたはメールからご相談ください。';
+        submitButton.disabled = false;
+        submitButton.textContent = '相談内容を送信する';
+        contactForm.reset();
+        submitted = false;
+      });
+    }
+  </script>
 </body>
 </html>
