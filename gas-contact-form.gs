@@ -25,10 +25,17 @@ function doPost(e) {
     params['希望形式'] || '',
     params['ご相談内容'] || '',
     params.source_url || '',
+    '',
+    '',
   ];
 
   sheet.appendRow(row);
-  sendNotification_(params, now);
+  const rowNumber = sheet.getLastRow();
+  const notificationResult = sendNotification_(params, now);
+  sheet.getRange(rowNumber, 10, 1, 2).setValues([[
+    notificationResult.ok ? '送信済み' : '送信失敗',
+    notificationResult.message,
+  ]]);
 
   return HtmlService.createHtmlOutput(
     '<meta charset="utf-8">' +
@@ -43,20 +50,33 @@ function getOrCreateSheet_() {
 
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
-    sheet.appendRow([
-      '受付日時',
-      'お名前',
-      '団体名・所属',
-      'メールアドレス',
-      '電話番号',
-      '開催予定地域',
-      '希望形式',
-      'ご相談内容',
-      '送信元URL',
-    ]);
   }
 
+  ensureHeader_(sheet);
   return sheet;
+}
+
+function ensureHeader_(sheet) {
+  const headers = [
+    '受付日時',
+    'お名前',
+    '団体名・所属',
+    'メールアドレス',
+    '電話番号',
+    '開催予定地域',
+    '希望形式',
+    'ご相談内容',
+    '送信元URL',
+    '通知メール',
+    '通知結果メモ',
+  ];
+
+  const currentHeaders = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  const needsHeader = headers.some((header, index) => currentHeaders[index] !== header);
+
+  if (needsHeader) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  }
 }
 
 function sendNotification_(params, now) {
@@ -76,8 +96,24 @@ function sendNotification_(params, now) {
     params['ご相談内容'] || '',
   ].join('\n');
 
-  GmailApp.sendEmail(NOTIFY_TO, subject, body, {
-    replyTo: params['メールアドレス'] || undefined,
+  const options = {
     name: '西本敦子公式サイト',
-  });
+  };
+
+  if (params['メールアドレス']) {
+    options.replyTo = params['メールアドレス'];
+  }
+
+  try {
+    MailApp.sendEmail(NOTIFY_TO, subject, body, options);
+    return {
+      ok: true,
+      message: `送信先: ${NOTIFY_TO}`,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error && error.message ? error.message : String(error),
+    };
+  }
 }
