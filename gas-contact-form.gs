@@ -11,7 +11,33 @@ function doGet() {
 }
 
 function doPost(e) {
-  const params = e.parameter || {};
+  if (!e || !e.parameter) {
+    return HtmlService.createHtmlOutput(
+      '<meta charset="utf-8">' +
+      '<p>doPost は公開フォームから呼び出す関数です。Apps Script 画面で手動テストする場合は testNotification を実行してください。</p>'
+    );
+  }
+
+  const params = e.parameter;
+  return handleSubmission_(params);
+}
+
+function testNotification() {
+  const params = {
+    'お名前': '通知テスト',
+    '団体名・所属': 'テスト',
+    'メールアドレス': NOTIFY_TO,
+    '電話番号': '',
+    '開催予定地域': '松江市',
+    '希望形式': '講演',
+    'ご相談内容': 'Apps Script からの通知メール送信テストです。',
+    source_url: SITE_URL,
+  };
+
+  handleSubmission_(params);
+}
+
+function handleSubmission_(params) {
   const sheet = getOrCreateSheet_();
   const now = new Date();
 
