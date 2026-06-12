@@ -157,9 +157,42 @@
       align-items: center;
     }
 
-    .program-photo {
-      margin-top: 24px;
-      aspect-ratio: 16 / 8;
+    .lecture-proof {
+      margin-top: 34px;
+    }
+
+    .lecture-proof-head {
+      max-width: 760px;
+      margin-bottom: 20px;
+    }
+
+    .lecture-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .lecture-shot {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 12px 30px rgba(72, 52, 39, 0.1);
+    }
+
+    .lecture-shot img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .lecture-shot figcaption {
+      padding: 14px 16px 16px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.6;
     }
 
     .eyebrow {
@@ -761,7 +794,8 @@
 
       .worries,
       .programs,
-      .scenario-grid {
+      .scenario-grid,
+      .lecture-gallery {
         grid-template-columns: 1fr;
       }
 
@@ -925,9 +959,22 @@
           </ul>
         </article>
       </div>
-      <figure class="section-photo program-photo">
-        <img src="assets/rolling-stock.png" alt="西本敦子が水や缶詰、カセットコンロを前に備蓄内容を確認している様子">
-      </figure>
+      <div class="lecture-proof">
+        <div class="lecture-proof-head">
+          <p class="eyebrow">実際の講座・講演風景</p>
+          <h3><span class="phrase">地域講座から講演会まで、</span><span class="phrase">参加者に伝わる言葉でお話しします。</span></h3>
+        </div>
+        <div class="lecture-gallery">
+          <figure class="lecture-shot">
+            <img src="assets/actual-lecture.jpg" alt="西本敦子がスクリーンを使って防災食の選び方と活用術を説明している講座風景">
+            <figcaption>スクリーンを使った防災食・ローリングストック講座</figcaption>
+          </figure>
+          <figure class="lecture-shot">
+            <img src="assets/keynote-speaking.jpg" alt="西本敦子がマイクを持って講師として講演している様子">
+            <figcaption>講演会やセミナーでの登壇にも対応しています</figcaption>
+          </figure>
+        </div>
+      </div>
     </section>
 
     <section class="section wrap">
